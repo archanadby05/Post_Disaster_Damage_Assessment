@@ -12,6 +12,8 @@ function App() {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
+  console.log('App component is rendering');
+
   return (
     <div className="App">
       <InputForm />
