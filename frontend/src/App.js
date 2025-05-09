@@ -6,34 +6,31 @@ import LeftSidebar from './components/LeftSidebar';
 import './App.css';
 
 function App() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
+  const handleFormSubmit = () => {
+    setIsFormSubmitted(true);
   };
-
-  console.log('App component is rendering');
 
   return (
     <div className="App">
-      <InputForm />
+      {!isFormSubmitted && <InputForm onSubmit={handleFormSubmit} />}
 
-      <div className="main-layout">
-        <div className={`left-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
-          <button onClick={toggleSidebar}>
-            {isSidebarCollapsed ? '☰' : '✖'}
-          </button>
-          {!isSidebarCollapsed && <LeftSidebar />}
-        </div>
+      {isFormSubmitted && (
+        <div className="main-layout">
+          <div className="left-sidebar">
+            <LeftSidebar />
+          </div>
 
-        <div className="map-display">
-          <MapDisplay />
-        </div>
+          <div className="map-display">
+            <MapDisplay />
+          </div>
 
-        <div className="dashboard-sidebar">
-          <DashboardSidebar />
+          <div className="dashboard-sidebar">
+            <DashboardSidebar />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
