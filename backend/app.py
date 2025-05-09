@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS  # For enabling CORS between React and Flask
+from flask_cors import CORS
+from routes.analysis import analysis_bp 
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS
+CORS(app)
+app.register_blueprint(analysis_bp)
 
 @app.route('/')
 def home():
