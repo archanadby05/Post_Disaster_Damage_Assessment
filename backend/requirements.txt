@@ -1,0 +1,7 @@
+Flask
+Flask-Cors
+requests
+google-auth
+google-api-python-client
+rasterio
+folium
