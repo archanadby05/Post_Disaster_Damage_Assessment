@@ -1,87 +1,49 @@
-/* App CSS */
-.App {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+/* App.css */
+
+body, html, #root, .App {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.header {
+  padding: 15px 25px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .main-layout {
   display: flex;
-  height: 100%;
-  margin-top: 20px;
+  height: calc(100vh - 60px); /* Adjust height to exclude header */
+  overflow: hidden;
 }
 
-.left-sidebar {
-  width: 80px; /* Small width */
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  z-index: 10;
-  background-color: #e0e0e0;
-  transition: width 0.3s ease-in-out;
-}
-
-.map-display {
-  flex-grow: 1;
-  height: 100vh;
-  margin-left: 80px; /* Adjust according to left sidebar */
-  transition: margin-left 0.3s ease;
-}
-
+/* Sidebar on the LEFT */
 .dashboard-sidebar {
-  width: 300px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: #f4f4f4;
+  flex: 0 0 350px;
+  max-width: 350px;
+  height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Form CSS */
-.form-container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+/* Map area on the RIGHT */
+.map-display {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
-.input-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.input-form label {
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.input-form input {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-.input-form .error-message {
-  color: red;
-  margin-bottom: 10px;
-}
-
-.input-form .submit-button {
-  padding: 12px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.input-form .submit-button:hover {
-  background-color: #45a049;
+/* Fix Leaflet map container not respecting boundaries */
+.leaflet-container {
+  z-index: 0 !important;
+  position: relative !important;
 }

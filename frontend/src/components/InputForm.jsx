@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './styles/InputForm.css';
 
-const InputForm = ({ onSubmit }) => {
+const InputForm = () => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
   const [preStart, setPreStart] = useState('');
@@ -9,6 +10,7 @@ const InputForm = ({ onSubmit }) => {
   const [postStart, setPostStart] = useState('');
   const [postEnd, setPostEnd] = useState('');
   const [error, setError] = useState('');
+  const [files, setFiles] = useState(null); // To store file paths
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const InputForm = ({ onSubmit }) => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/process_data', {
+      const response = await axios.post('http://127.0.0.1:5000/process_flood_data', {
         longitude,
         latitude,
         pre_start: preStart,
@@ -27,9 +29,13 @@ const InputForm = ({ onSubmit }) => {
         post_start: postStart,
         post_end: postEnd,
       });
-      console.log('Response:', response.data);
-      setError('');
-      onSubmit(); // Submit the form and switch to the next page layout
+
+      if (response.data.status === 'success') {
+        setError('');
+        setFiles(response.data.files); // Store file paths
+      } else {
+        setError('Error: ' + response.data.message);
+      }
     } catch (error) {
       console.error('Error sending data to Flask:', error);
       setError('Error submitting data. Please try again.');
@@ -39,54 +45,52 @@ const InputForm = ({ onSubmit }) => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="input-form">
-        <label>Longitude:</label>
+        {/* Form fields */}
         <input
           type="text"
           value={longitude}
           onChange={(e) => setLongitude(e.target.value)}
           placeholder="Enter longitude"
         />
-
-        <label>Latitude:</label>
         <input
           type="text"
           value={latitude}
           onChange={(e) => setLatitude(e.target.value)}
           placeholder="Enter latitude"
         />
-
-        <label>Pre-disaster Start Date:</label>
         <input
           type="date"
           value={preStart}
           onChange={(e) => setPreStart(e.target.value)}
         />
-
-        <label>Pre-disaster End Date:</label>
         <input
           type="date"
           value={preEnd}
           onChange={(e) => setPreEnd(e.target.value)}
         />
-
-        <label>Post-disaster Start Date:</label>
         <input
           type="date"
           value={postStart}
           onChange={(e) => setPostStart(e.target.value)}
         />
-
-        <label>Post-disaster End Date:</label>
         <input
           type="date"
           value={postEnd}
           onChange={(e) => setPostEnd(e.target.value)}
         />
-
         {error && <p className="error-message">{error}</p>}
-
         <button type="submit" className="submit-button">Submit</button>
       </form>
+
+      {/* Display download links if files are received */}
+      {files && (
+        <div>
+          <h2>Download the Resulting Files:</h2>
+          <p><a href={files.ndvi} target="_blank" rel="noopener noreferrer">Download NDVI Change</a></p>
+          <p><a href={files.ndwi} target="_blank" rel="noopener noreferrer">Download NDWI Change</a></p>
+          <p><a href={files.ndbi} target="_blank" rel="noopener noreferrer">Download NDBI Change</a></p>
+        </div>
+      )}
     </div>
   );
 };

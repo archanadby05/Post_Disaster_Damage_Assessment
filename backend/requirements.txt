@@ -5,3 +5,5 @@ google-auth
 google-api-python-client
 rasterio
 folium
+geemap
+earthengine-api

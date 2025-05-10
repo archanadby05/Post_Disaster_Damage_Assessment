@@ -1,37 +1,30 @@
-import React, { useState } from 'react';
-import InputForm from './components/InputForm';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MapDisplay from './components/MapDisplay';
 import DashboardSidebar from './components/DashboardSidebar';
-import LeftSidebar from './components/LeftSidebar';
+import InputForm from './components/InputForm'; // Import your form
 import './App.css';
 
 function App() {
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
-  const handleFormSubmit = () => {
-    setIsFormSubmitted(true);
-  };
-
   return (
-    <div className="App">
-      {!isFormSubmitted && <InputForm onSubmit={handleFormSubmit} />}
-
-      {isFormSubmitted && (
-        <div className="main-layout">
-          <div className="left-sidebar">
-            <LeftSidebar />
+    <Router>
+      <Routes>
+        {/* Default dashboard with map and sidebar */}
+        <Route path="/" element={
+          <div className="main-layout">
+            <div className="map-display">
+              <MapDisplay />
+            </div>
+            <div className="dashboard-sidebar">
+              <DashboardSidebar />
+            </div>
           </div>
+        } />
 
-          <div className="map-display">
-            <MapDisplay />
-          </div>
-
-          <div className="dashboard-sidebar">
-            <DashboardSidebar />
-          </div>
-        </div>
-      )}
-    </div>
+        <Route path="/form" element={<InputForm />} />
+      </Routes>
+    </Router>
   );
 }
 
